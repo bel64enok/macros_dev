@@ -1,5 +1,5 @@
 # macros_dev
-## Macro development repository
+## Structure of macro development repository
 
 [Макросы](./macros)
 
