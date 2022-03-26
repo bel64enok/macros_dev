@@ -1,0 +1,1056 @@
+Sub Макрос_4()
+    MsgBox "Макрос займёт до 20 сек"
+
+Application.ScreenUpdating = 0
+
+''Тестирование входных файлов
+''Поиск входных файлов в папке с макросом
+    Dim strFileName As String
+    Dim strFileTitle As String
+    strFileTitle = "10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xls"
+    strFileName = ThisWorkbook.Path & "\10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx"
+    If Dir(strFileName) <> "" Then
+    Else
+        MsgBox ("Файл " & strFileTitle & " не найден")
+        Exit Sub
+    End If
+    
+    
+    strFileTitle = "Справочники_iминтранс_v1.xls"
+    strFileName = ThisWorkbook.Path & "\Справочники_iминтранс_v1.xlsx"
+    If Dir(strFileName) <> "" Then
+    Else
+        MsgBox ("Файл " & strFileTitle & " не найден")
+        Exit Sub
+    End If
+
+    
+    Dim wsSh As Worksheet
+    On Error Resume Next
+    Set wsSh = Sheets("dict_ind_data_holder")
+    If wsSh Is Nothing Then
+    Else
+        Response = MsgBox("В файле Справочники_iминтранс_v1 нет листа dict_ind_data_holder", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+
+    On Error Resume Next
+    Set wsSh = Sheets("dict_department")
+    If wsSh Is Nothing Then
+    Else
+        Response = MsgBox("В файле Справочники_iминтранс_v1 нет листа dict_department", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+
+    On Error Resume Next
+    Set wsSh = Sheets("dict_period")
+    If wsSh Is Nothing Then
+    Else
+        Response = MsgBox("В файле Справочники_iминтранс_v1 нет листа dict_period", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+ 
+    
+'' Тесты для таблицы Общее количество поручений:
+    Workbooks.Open Filename:=ThisWorkbook.Path & "\10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx"
+        
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    
+    Dim c As Range
+    With Range("A1:A500")
+        Set c = .Find(What:="Общее количество поручений", LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False)
+        If c Is Nothing Then
+        Else
+            Response = MsgBox("Таблица Общее количество поручений не найдена по наименованию", vbExclamation, "Ошибка в исходном файле!")
+            Workbooks("Макрос_4").Close SaveChanges:=False
+            Exit Sub
+        End If
+    End With
+    
+    
+    With Range("A1:A500")
+        Set c = .Find(What:="Поручения Президента Российской Федерации, данные непосредственно Министру (прямые)", LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False)
+        If c Is Nothing Then
+            Set c = .FindNext()
+            If c Is Nothing Then
+            Else
+                Response = MsgBox("Таблица Поручения Президента Российской Федерации, данные непосредственно Министру (прямые) не найдена по наименованию", vbExclamation, "Ошибка в исходном файле!")
+                Workbooks("Макрос_4").Close SaveChanges:=False
+                Exit Sub
+            End If
+        Else
+            Response = MsgBox("Таблица Поручения Президента Российской Федерации, данные непосредственно Министру (прямые) не найдена по наименованию", vbExclamation, "Ошибка в исходном файле!")
+            Workbooks("Макрос_4").Close SaveChanges:=False
+            Exit Sub
+        End If
+    End With
+
+
+    With Range("A1:A500")
+        Set c = .Find(What:="Поручения Президента Российской Федерации, данные Правительству Российской Федерации, головной исполнитель Минтранс России (непрямые)", LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False)
+        If c Is Nothing Then
+            Set с = .FindNext()
+            If c Is Nothing Then
+            Else
+                Response = MsgBox("Таблица Поручения Президента Российской Федерации, данные Правительству Российской Федерации, головной исполнитель Минтранс России (непрямые) не найдена по наименованию", vbExclamation, "Ошибка в исходном файле!")
+                Workbooks("Макрос_4").Close SaveChanges:=False
+                Exit Sub
+            End If
+        Else
+            Response = MsgBox("Таблица Поручения Президента Российской Федерации, данные Правительству Российской Федерации, головной исполнитель Минтранс России (непрямые) не найдена по наименованию", vbExclamation, "Ошибка в исходном файле!")
+            Workbooks("Макрос_4").Close SaveChanges:=False
+            Exit Sub
+        End If
+    End With
+    
+    
+    With Range("A1:A500")
+        Set c = .Find(What:="Поручения Председателя Правительства Российской Федерации", LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False)
+        If c Is Nothing Then
+            Set с = .FindNext()
+            If c Is Nothing Then
+            Else
+                Response = MsgBox("Таблица Поручения Председателя Правительства Российской Федерации не найдена по наименованию", vbExclamation, "Ошибка в исходном файле!")
+                Workbooks("Макрос_4").Close SaveChanges:=False
+                Exit Sub
+            End If
+        Else
+            Response = MsgBox("Таблица Поручения Председателя Правительства Российской Федерации не найдена по наименованию", vbExclamation, "Ошибка в исходном файле!")
+            Workbooks("Макрос_4").Close SaveChanges:=False
+            Exit Sub
+        End If
+    End With
+        
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Общее количество поручений" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+
+    act_row_test_1 = ActiveCell.Row
+    
+    act_col_test_1 = ActiveCell.Column
+    
+    Dim test_1 As Integer
+    test_1 = 13
+    
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_1, act_col_test_1 - 1), Cells(act_row_test_1 + 22, act_col_test_1 - 1))) <> 13 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Количество ответственных в таблице Общее количество поручений не равно 13", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+    
+    
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Общее количество поручений" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+
+    act_row_test_2 = ActiveCell.Row
+    
+    act_col_test_2 = ActiveCell.Column
+
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_2 + 7, act_col_test_2 - 1), Cells(act_row_test_2 + 14, act_col_test_1 - 1))) <> 8 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Количество ответственных Минтранс в таблице Общее количество поручений не равно 8", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+
+
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Общее количество поручений" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+
+    act_row_test_3 = ActiveCell.Row
+    
+    act_col_test_3 = ActiveCell.Column
+
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_3 + 15, act_col_test_3 - 1), Cells(act_row_test_3 + 21, act_col_test_3 - 1))) <> 5 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Количество ответственных ФОИВ в таблице Общее количество поручений не равно 5", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+
+    
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Общее количество поручений" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+
+    act_row_test_4 = ActiveCell.Row
+    
+    act_col_test_4 = ActiveCell.Column
+
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_4 + 7, act_col_test_4), Cells(act_row_test_4 + 15, act_col_test_4 + 7))) <> 72 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Есть пропуски в значениях по ответственным Минтранс в таблице Общее количество поручений", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+
+
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Общее количество поручений" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+
+    act_row_test_5 = ActiveCell.Row
+    
+    act_col_test_5 = ActiveCell.Column
+
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_5 + 17, act_col_test_5), Cells(act_row_test_5 + 21, act_col_test_5 + 7))) <> 40 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Есть пропуски в значениях по ответственным ФОИВ в таблице Общее количество поручений", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+
+
+'' Тесты для таблицы Поручения Президента Российской Федерации, данные непосредственно Министру (прямые):
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Поручения Президента Российской Федерации, данные непосредственно Министру (прямые)" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+    Selection.FindNext(After:=ActiveCell).Activate
+
+    act_row_test_6 = ActiveCell.Row
+
+    act_col_test_6 = ActiveCell.Column
+    
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_6, act_col_test_6 - 1), Cells(act_row_test_6 + 13, act_col_test_6 - 1))) <> 8 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Количество ответственных Минтранс в таблице Поручения Президента Российской Федерации, данные непосредственно Министру (прямые) не равно 8", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+    
+    
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Поручения Президента Российской Федерации, данные непосредственно Министру (прямые)" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+    Selection.FindNext(After:=ActiveCell).Activate
+
+    act_row_test_7 = ActiveCell.Row
+
+    act_col_test_7 = ActiveCell.Column
+    
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_7 + 5, act_col_test_7), Cells(act_row_test_7 + 13, act_col_test_7 + 17))) <> 162 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Количество значений отвтетственных Минтранс в таблице Поручения Президента Российской Федерации, данные непосредственно Министру (прямые) не равно 162", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+
+
+'' Тесты для таблицы Поручения Президента Российской Федерации, данные непосредственно Министру (непрямые):
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Поручения Президента Российской Федерации, данные Правительству Российской Федерации, головной исполнитель Минтранс России (непрямые)" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+    Selection.FindNext(After:=ActiveCell).Activate
+
+    act_row_test_8 = ActiveCell.Row
+
+    act_col_test_8 = ActiveCell.Column
+    
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_8, act_col_test_8 - 1), Cells(act_row_test_8 + 13, act_col_test_8 - 1))) <> 8 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Количество ответственных Минтранс в таблице Поручения Президента Российской Федерации, данные непосредственно Министру (прямые) не равно 8", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+    
+    
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Поручения Президента Российской Федерации, данные Правительству Российской Федерации, головной исполнитель Минтранс России (непрямые)" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+    Selection.FindNext(After:=ActiveCell).Activate
+
+    act_row_test_9 = ActiveCell.Row
+
+    act_col_test_9 = ActiveCell.Column
+    
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_7 + 5, act_col_test_7), Cells(act_row_test_7 + 13, act_col_test_7 + 17))) <> 162 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Количество значений отвтетственных Минтранс в таблице Поручения Президента Российской Федерации, данные непосредственно Министру (прямые) не равно 162", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+
+
+'' Тесты для таблицы Поручения Председателя Правительства Российской Федерации:
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Поручения Председателя Правительства Российской Федерации" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+    Selection.FindNext(After:=ActiveCell).Activate
+
+    act_row_test_10 = ActiveCell.Row
+    
+    act_col_test_10 = ActiveCell.Column
+    
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_10 + 4, act_col_test_10 - 1), Cells(act_row_test_10 + 12, act_col_test_10 - 1))) <> 8 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Количество отвтетственных Минтранс в таблице Поручения Председателя Правительства Российской Федерации не равно 8", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+    
+
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Поручения Председателя Правительства Российской Федерации" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+    Selection.FindNext(After:=ActiveCell).Activate
+
+    act_row_test_11 = ActiveCell.Row
+    
+    act_col_test_11 = ActiveCell.Column
+    
+    If Application.WorksheetFunction.CountA(Range(Cells(act_row_test_11 + 4, act_col_test_11), Cells(act_row_test_11 + 12, act_col_test_11 + 6))) <> 63 Then
+        Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+        Response = MsgBox("Количество значений отвтетственных Минтранс в таблице Поручения Председателя Правительства Российской Федерации не равно 63", vbExclamation, "Ошибка в исходном файле!")
+        Workbooks("Макрос_4").Close SaveChanges:=False
+        Exit Sub
+    End If
+    Cells(1, 1).Activate
+
+
+'' Конец тестирования
+
+
+
+
+
+Windows("Макрос_4.xlsm").Activate
+Sheets.Add After:=ActiveSheet
+
+Dim ws As Worksheet
+For Each ws In ThisWorkbook.Worksheets
+    If ws.name <> ThisWorkbook.ActiveSheet.name Then
+        Application.DisplayAlerts = False
+        ws.Delete
+        Application.DisplayAlerts = True
+    End If
+Next ws
+
+
+ActiveSheet.name = "Данные"
+
+
+'Парсим данные из исходного файла'
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Activate
+    
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Общее количество поручений" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+
+    act_row_1 = ActiveCell.Row
+    
+
+    act_col_1 = ActiveCell.Column
+    
+    Range(Cells(act_row_1, act_col_1 - 1), Cells(act_row_1 + 21, act_col_1 + 7)).Select
+    Selection.Copy
+    
+    Windows("Макрос_4.xlsm").Activate
+    Range("A1").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Поручения Президента Российской Федерации, данные непосредственно Министру (прямые)" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+    Selection.FindNext(After:=ActiveCell).Activate
+
+    act_row_2 = ActiveCell.Row
+    
+
+    act_col_2 = ActiveCell.Column
+    
+    Range(Cells(act_row_2, act_col_2 - 1), Cells(act_row_2 + 13, act_col_2 + 17)).Select
+    Selection.Copy
+    
+    Windows("Макрос_4.xlsm").Activate
+    Range("A25").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    
+    
+    
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Поручения Президента Российской Федерации, данные Правительству Российской Федерации, головной исполнитель Минтранс России (непрямые)" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+    Selection.FindNext(After:=ActiveCell).Activate
+    
+    act_row_3 = ActiveCell.Row
+    
+    act_col_3 = ActiveCell.Column
+    
+    Range(Cells(act_row_3, act_col_3 - 1), Cells(act_row_3 + 13, act_col_3 + 17)).Select
+    Selection.Copy
+    
+    Windows("Макрос_4.xlsm").Activate
+    Range("A45").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    
+    
+    
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Activate
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "Поручения Председателя Правительства Российской Федерации" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+    Selection.FindNext(After:=ActiveCell).Activate
+
+    act_row_4 = ActiveCell.Row
+    
+    act_col_4 = ActiveCell.Column
+    
+    Range(Cells(act_row_4, act_col_4 - 1), Cells(act_row_4 + 12, act_col_4 + 6)).Select
+    Selection.Copy
+    
+    Windows("Макрос_4.xlsm").Activate
+    Range("A65").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    
+    Windows("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Activate
+    
+    Cells(1, 1).Activate
+    Cells.Select
+    Cells.Find(What:= _
+        "ИСПОЛНЕНИЕ ПОРУЧЕНИЙ ПРЕЗИДЕНТА РОССИЙСКОЙ ФЕДЕРАЦИИ И ПРАВИТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ" _
+        , After:=ActiveCell, LookIn:=xlFormulas, LookAt:=xlPart, SearchOrder:= _
+        xlByRows, SearchDirection:=xlNext, MatchCase:=False, SearchFormat:=False) _
+        .Activate
+
+    act_row_5 = ActiveCell.Row
+    
+
+    act_col_5 = ActiveCell.Column
+    
+    Cells(act_row_5 + 1, act_col_5 + 14).Select
+    Selection.Copy
+    
+    Windows("Макрос_4.xlsm").Activate
+    Range("R2").Select
+    ActiveSheet.Paste
+
+    
+ActiveSheet.name = "Данные"
+    
+Dim main_cycle As Integer
+main_cycle = 1
+
+For main_cycle = 1 To 4
+If main_cycle = 1 Then
+    
+'Наполняем лист заголовками'
+    Sheets.Add After:=ActiveSheet
+    ActiveSheet.name = "@tech" & main_cycle
+    
+    ActiveSheet.Range("A1").Value = "resp_name" 'Ответственный имя'
+    ActiveSheet.Range("B1").Value = "resp_code" 'Ответственный код'
+    ActiveSheet.Range("C1").Value = "foiv_name" 'ФОИВ имя'
+    ActiveSheet.Range("D1").Value = "foiv_cod" 'ФОИВ код'
+    ActiveSheet.Range("E1").Value = "date_download" 'Период имя'
+    ActiveSheet.Range("F1").Value = "period_code" 'Период код'
+    ActiveSheet.Range("G1").Value = "total_orders" 'Всего поручений'
+    ActiveSheet.Range("H1").Value = "total_orders_pending" 'Всего поручений принявших затяжной характер'
+    ActiveSheet.Range("I1").Value = "direct_order" 'Прямые поручения всего'
+    ActiveSheet.Range("J1").Value = "direct_order_extend" 'Прямые поручения срок исполнения продлевался более 3 раз'
+    ActiveSheet.Range("K1").Value = "indirect_total" 'Непрямые поручения всего'
+    ActiveSheet.Range("L1").Value = "indirect_total_extend" 'Непрямые поручения срок исполнения продлевался более 3 раз'
+    ActiveSheet.Range("M1").Value = "orders_gover" 'Поручения правительства'
+    ActiveSheet.Range("N1").Value = "orders_gover_extend" 'Поручения правительства срок исполнения продлевался'
+    ActiveSheet.Range("O1").Value = "sort_order" 'Сортировка'
+    ActiveSheet.Range("P1").Value = "period_download" 'Период загрузки'
+    ActiveSheet.Range("Q1").Value = "section_name" 'Раздел'
+    
+    
+    Sheets("Данные").Select
+    Range("A8:A15").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("A2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    Dim sname As String
+    Dim initials As String
+    Dim n As Long
+    Dim d As Integer
+    d = 2
+    For d = 2 To 9
+    
+        n = InStr(1, Cells(d, 1), " ")
+        initials = Left(Cells(d, 1), n - 1)
+        sname = Right(Cells(d, 1), Len(Cells(d, 1)) - n)
+        Cells(d, 1).Value = sname & " " & initials
+    
+    Next d
+    
+    ActiveSheet.Range("A10").Value = "Все"
+    
+    Sheets("Данные").Select
+    Range("A18:A22").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("A11").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    d = 11
+    For d = 11 To 15
+    
+        n = InStr(1, Cells(d, 1), " ")
+        initials = Left(Cells(d, 1), n - 1)
+        sname = Right(Cells(d, 1), Len(Cells(d, 1)) - n)
+        Cells(d, 1).Value = sname & " " & initials
+    
+    Next d
+    
+    Workbooks.Open Filename:=ThisWorkbook.Path & "\Справочники_iминтранс_v1.xlsx"
+    
+'Костыль'
+    Dim сycleDate As Integer
+    сycleDate = 2
+    Dim cycleDateFormat As Date
+    cycleDateFormat = "2022-01-03"
+    For сycleDate = 2 To 365
+        Cells(сycleDate, 1).Select
+        Cells(сycleDate, 1).Value = Format(cycleDateFormat, "yyyy-mm-dd")
+        cycleDateFormat = cycleDateFormat + 1 'Cells(сycleDate, 1).Value'
+    Next сycleDate
+    
+    
+    Windows("Макрос_4.xlsm").Activate
+    Range("B2").Select
+        ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(RC[-1],[Справочники_iминтранс_v1.xlsx]dict_ind_data_holder!R2C1:R77C2,2,FALSE)"
+    Selection.AutoFill Destination:=Range("B2:B15"), Type:=xlFillDefault
+    Range("B2:B15").Select
+    
+    Range("B2:B15").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("B2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    ActiveSheet.Range("B10").Value = 0
+    
+'Это КОСТЫЛЬ!!!'
+
+    Range("C2:C10").Value = "Минтранс"
+    Range("C11").Value = "Ространснадзор"
+    Range("C12").Value = "Росжелдор"
+    Range("C13").Value = "Росморречфлот"
+    Range("C14").Value = "Росавиация"
+    Range("C15").Value = "ФДА"
+    
+    Range("D2").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(RC[-1],[Справочники_iминтранс_v1.xlsx]dict_department!R2C1:R26C2,2,FALSE)"
+    Selection.AutoFill Destination:=Range("D2:D15"), Type:=xlFillDefault
+    
+    Range("B2:B15").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("B2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    
+'Объявляем переменную значений даты_времени получения данных за неделю'
+    Dim date_time As String
+    Dim date_time_lim As String
+    date_time = Left(Worksheets("Данные").Range("R2"), 10) & "T" & Mid(Worksheets("Данные").Range("R2"), 12, 7) & "+02:00"
+    date_time_lim = Left(Worksheets("Данные").Range("R2"), 10)
+    
+    
+    Range("E2").Value = Format(date_time_lim, "yyyy-mm-dd")
+    
+    Range("F2").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(R2C5,[Справочники_iминтранс_v1.xlsx]dict_period!R2C1:R365C2,2,FALSE)"
+    Selection.AutoFill Destination:=Range("F2:F15"), Type:=xlFillDefault
+    
+    Range("F2:F15").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("F2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    Range("P2").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(R2C5,[Справочники_iминтранс_v1.xlsx]dict_period!R2C1:R365C5,5,FALSE)"
+    Selection.AutoFill Destination:=Range("P2:P15"), Type:=xlFillDefault
+    
+    Range("P2:P15").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("P2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    Worksheets("@tech" & main_cycle).Range("E2:E15").Value = date_time
+
+    
+'Заполняем значения'
+    Sheets("Данные").Select
+    Range("B8:I16,B18:I22").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("G2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+'Объявляем сортировку'
+    Dim i_order As Integer
+    i_order = 1
+    
+    Dim line_number As Integer
+    line_number = 2
+    
+    For i_order = 1 To 14
+        Range("O" & line_number).Value = i_order
+        line_number = line_number + 1
+    Next i_order
+    
+    Sheets("Данные").Select
+    Range("B1").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("Q2:Q15").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+
+ElseIf main_cycle = 2 Then
+    
+    Sheets.Add After:=ActiveSheet
+    ActiveSheet.name = "@tech" & main_cycle
+    
+'Наполняем лист заголовками'
+    ActiveSheet.Range("A1").Value = "resp_name" 'Ответственный имя'
+    ActiveSheet.Range("B1").Value = "resp_code" 'Ответсвенный код'
+    ActiveSheet.Range("C1").Value = "period_name" 'Период имя'
+    ActiveSheet.Range("D1").Value = "period_code" 'Период код'
+    ActiveSheet.Range("E1").Value = "direct_total" 'Прямые поручения всего'
+    ActiveSheet.Range("F1").Value = "direct_extendnt" 'Прямые поручения срок исполнения не продлевался всего'
+    ActiveSheet.Range("G1").Value = "dent_finance" 'Прямые поручения срок исполнения не продлевался финансы'
+    ActiveSheet.Range("H1").Value = "dent_npa" 'Прямые поручения срок исполнения не продлевался НПА'
+    ActiveSheet.Range("I1").Value = "dent_reports" 'Прямые поручения срок исполнения не продлевался Представлены доклады'
+    ActiveSheet.Range("J1").Value = "dent_dedline" 'Прямые поручения срок исполнения не продлевался Срок не наступил'
+    ActiveSheet.Range("K1").Value = "direct_extend" 'Прямые поручения срок исполнения продлевался всего'
+    ActiveSheet.Range("L1").Value = "de_finance" 'Прямые поручения срок исполнения продлевался финансы'
+    ActiveSheet.Range("M1").Value = "de_npa" 'Прямые поручения срок исполнения продлевался НПА'
+    ActiveSheet.Range("N1").Value = "de_reports" 'Прямые поручения срок исполнения продлевался Представлены доклады'
+    ActiveSheet.Range("O1").Value = "de_dedline" 'Прямые поручения срок исполнения продлевался Срок не наступил'
+    ActiveSheet.Range("P1").Value = "direct_extend_thr" 'Прямые поручения срок исполнения продлевался > 3 раз всего'
+    ActiveSheet.Range("Q1").Value = "dethr_finance" 'Прямые поручения срок исполнения продлевался > 3 финансы'
+    ActiveSheet.Range("R1").Value = "dethr_npa" 'Прямые поручения срок исполнения продлевался > 3 НПА'
+    ActiveSheet.Range("S1").Value = "dethr_reports" 'Прямые поручения срок исполнения продлевался > 3 Представлены доклады'
+    ActiveSheet.Range("T1").Value = "dethr_control" 'Прямые поручения срок исполнения продлевался > 3 Снятие с контроля'
+    ActiveSheet.Range("U1").Value = "dethr_prolongation" 'Прямые поручения срок исполнения продлевался > 3 Продление'
+    ActiveSheet.Range("V1").Value = "dethr_dedline" 'Прямые поручения срок исполнения продлевался > 3 Срок не наступил'
+    ActiveSheet.Range("W1").Value = "sort_order" 'Сортировка'
+    ActiveSheet.Range("X1").Value = "period_download" 'Период загрузки'
+    ActiveSheet.Range("Y1").Value = "section_name" 'Раздел'
+    
+    Sheets("Данные").Select
+    Range("A8:A15").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("A2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    d = 2
+    For d = 2 To 9
+    
+        n = InStr(1, Cells(d, 1), " ")
+        initials = Left(Cells(d, 1), n - 1)
+        sname = Right(Cells(d, 1), Len(Cells(d, 1)) - n)
+        Cells(d, 1).Value = sname & " " & initials
+    
+    Next d
+    
+    ActiveSheet.Range("A10").Value = "Все"
+    
+    Range("B2").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(RC[-1],[Справочники_iминтранс_v1.xlsx]dict_ind_data_holder!R2C1:R77C2,2,FALSE)"
+    Selection.AutoFill Destination:=Range("B2:B9"), Type:=xlFillDefault
+    Range("B2:B9").Select
+    
+    Range("B2:B9").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("B2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    ActiveSheet.Range("B10").Value = 0
+    
+'Вводим значение даты_времени недели данных'
+
+    Range("C2").Value = Format(date_time_lim, "yyyy-mm-dd")
+    
+    Range("D2").Select
+        ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(R2C3,[Справочники_iминтранс_v1.xlsx]dict_period!R2C1:R365C2,2,FALSE)"
+    Selection.AutoFill Destination:=Range("D2:D10"), Type:=xlFillDefault
+    
+    Range("D2:D10").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("D2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+        
+    Range("X2").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(R2C3,[Справочники_iминтранс_v1.xlsx]dict_period!R2C1:R365C5,5,FALSE)"
+    Selection.AutoFill Destination:=Range("X2:X10"), Type:=xlFillDefault
+    
+    Range("X2:X10").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("X2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    Worksheets("@tech" & main_cycle).Range("C2:C10").Value = date_time
+    
+'Объявляем сортировку'
+    i_order = 1
+    line_number = 2
+    
+    For i_order = 1 To 9
+        Range("W" & line_number).Value = i_order
+        line_number = line_number + 1
+    Next i_order
+    
+'Заполняем значения'
+    Sheets("Данные").Select
+    Range("B30:S38").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("E2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    Sheets("Данные").Select
+    Range("B1").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("Y2:Y10").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+ElseIf main_cycle = 3 Then
+    
+    Sheets.Add After:=ActiveSheet
+    ActiveSheet.name = "@tech" & main_cycle
+    
+'Наполняем лист заголовками'
+    ActiveSheet.Range("A1").Value = "resp_name" 'Ответственный имя'
+    ActiveSheet.Range("B1").Value = "resp_code" 'Ответсвенный код'
+    ActiveSheet.Range("C1").Value = "period_name" 'Период имя'
+    ActiveSheet.Range("D1").Value = "period_code" 'Период код'
+    ActiveSheet.Range("E1").Value = "indirect_total" 'Непрямые поручения всего'
+    ActiveSheet.Range("F1").Value = "indirect_extendnt" 'Непрямые поручения срок исполнения не продлевался всего'
+    ActiveSheet.Range("G1").Value = "ient_finance" 'Непрямые поручения срок исполнения не продлевался финансы'
+    ActiveSheet.Range("H1").Value = "ient_npa" 'Непрямые поручения срок исполнения не продлевался НПА'
+    ActiveSheet.Range("I1").Value = "ient_reports" 'Непрямые поручения срок исполнения не продлевался Представлены доклады'
+    ActiveSheet.Range("J1").Value = "ient_dedline" 'Непрямые поручения срок исполнения не продлевался Срок не наступил'
+    ActiveSheet.Range("K1").Value = "indirect_extend" 'Непрямые поручения срок исполнения продлевался всего'
+    ActiveSheet.Range("L1").Value = "ie_finance" 'Непрямые поручения срок исполнения продлевался финансы'
+    ActiveSheet.Range("M1").Value = "ie_npa" 'Непрямые поручения срок исполнения продлевался НПА'
+    ActiveSheet.Range("N1").Value = "ie_reports" 'Непрямые поручения срок исполнения продлевался Представлены доклады'
+    ActiveSheet.Range("O1").Value = "ie_dedline" 'Непрямые поручения срок исполнения продлевался Срок не наступил'
+    ActiveSheet.Range("P1").Value = "indirect_extend_thr" 'Непрямые поручения срок исполнения продлевался > 3 раз всего'
+    ActiveSheet.Range("Q1").Value = "iethr_finance" 'Непрямые поручения срок исполнения продлевался > 3 финансы'
+    ActiveSheet.Range("R1").Value = "iethr_npa" 'Непрямые поручения срок исполнения продлевался > 3 НПА'
+    ActiveSheet.Range("S1").Value = "iethr_reports" 'Непрямые поручения срок исполнения продлевался > 3 Представлены доклады'
+    ActiveSheet.Range("T1").Value = "iethr_control" 'Непрямые поручения срок исполнения продлевался > 3 Снятие с контроля'
+    ActiveSheet.Range("U1").Value = "iethr_prolongation" 'Непрямые поручения срок исполнения продлевался > 3 Продление'
+    ActiveSheet.Range("V1").Value = "iethr_dedline" 'Непрямые поручения срок исполнения продлевался > 3 Срок не наступил'
+    ActiveSheet.Range("W1").Value = "sort_order" 'Сортировка'
+    ActiveSheet.Range("X1").Value = "period_download" 'Период загрузки'
+    ActiveSheet.Range("Y1").Value = "section_name" 'Раздел'
+    
+    
+    Sheets("Данные").Select
+    Range("A8:A15").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("A2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    
+    d = 2
+    For d = 2 To 9
+    
+        n = InStr(1, Cells(d, 1), " ")
+        initials = Left(Cells(d, 1), n - 1)
+        sname = Right(Cells(d, 1), Len(Cells(d, 1)) - n)
+        Cells(d, 1).Value = sname & " " & initials
+    
+    Next d
+    
+    ActiveSheet.Range("A10").Value = "Все"
+    
+     Range("B2").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(RC[-1],[Справочники_iминтранс_v1.xlsx]dict_ind_data_holder!R2C1:R77C2,2,FALSE)"
+    Selection.AutoFill Destination:=Range("B2:B9"), Type:=xlFillDefault
+    
+    Range("B2:B9").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("B2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    ActiveSheet.Range("B10").Value = 0
+    
+'Вводим значение даты_времени недели данных'
+    Range("C2").Value = Format(date_time_lim, "yyyy-mm-dd")
+    
+    Range("D2").Select
+        ActiveCell.FormulaR1C1 = _
+            "=VLOOKUP(R2C3,[Справочники_iминтранс_v1.xlsx]dict_period!R2C1:R365C2,2,FALSE)"
+    Selection.AutoFill Destination:=Range("D2:D10"), Type:=xlFillDefault
+    
+    Range("D2:D10").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("D2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+        
+    Range("X2").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(R2C3,[Справочники_iминтранс_v1.xlsx]dict_period!R2C1:R365C5,5,FALSE)"
+    Selection.AutoFill Destination:=Range("X2:X10"), Type:=xlFillDefault
+    
+    Range("X2:X10").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("X2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+
+        
+    Worksheets("@tech" & main_cycle).Range("C2:C10").Value = date_time
+    
+'Объявляем сортировку'
+    i_order = 1
+    line_number = 2
+    
+    For i_order = 1 To 9
+        Range("W" & line_number).Value = i_order
+        line_number = line_number + 1
+    Next i_order
+    
+'Заполняем значения'
+    Sheets("Данные").Select
+    Range("B50:S58").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("E2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    
+    Sheets("Данные").Select
+    Range("B1").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("Y2:Y10").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+Else:
+    Sheets.Add After:=ActiveSheet
+    ActiveSheet.name = "@tech" & main_cycle
+    
+'Наполняем лист заголовками'
+    ActiveSheet.Range("A1").Value = "resp_name" 'Ответственный имя'
+    ActiveSheet.Range("B1").Value = "resp_code" 'Ответсвенный код'
+    ActiveSheet.Range("C1").Value = "period_name" 'Период имя'
+    ActiveSheet.Range("D1").Value = "period_code" 'Период код'
+    ActiveSheet.Range("E1").Value = "orders_gover_total" 'Поручения правительства всего'
+    ActiveSheet.Range("F1").Value = "ogt_extendnt_total" 'Поручения правительства всего срок не продлевался всего'
+    ActiveSheet.Range("G1").Value = "ogt_extendnt_reports" 'Поручения правительства всего срок не продлевался представлены доклады'
+    ActiveSheet.Range("H1").Value = "ogt_extendnt_dedline" 'Поручения правительства всего срок не продлевался срок не наступил'
+    ActiveSheet.Range("I1").Value = "ogt_extend_total" 'Поручения правительства всего срок продлевался всего'
+    ActiveSheet.Range("J1").Value = "ogt_extend_reports" 'Поручения правительства всего срок продлевался представлены доклады'"
+    ActiveSheet.Range("K1").Value = "ogt_extend_dedline" 'Поручения правительства всего срок продлевался срок не наступил'
+    ActiveSheet.Range("L1").Value = "sort_order" 'Сортировка'
+    ActiveSheet.Range("M1").Value = "period_download" 'Период загрузки'
+    ActiveSheet.Range("N1").Value = "section_name" 'Раздел'
+    
+    Sheets("Данные").Select
+    Range("A8:A15").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("A2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    d = 2
+    For d = 2 To 9
+    
+        n = InStr(1, Cells(d, 1), " ")
+        initials = Left(Cells(d, 1), n - 1)
+        sname = Right(Cells(d, 1), Len(Cells(d, 1)) - n)
+        Cells(d, 1).Value = sname & " " & initials
+    
+    Next d
+    
+    ActiveSheet.Range("A10").Value = "Все"
+    
+    Range("B2").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(RC[-1],[Справочники_iминтранс_v1.xlsx]dict_ind_data_holder!R2C1:R77C2,2,FALSE)"
+    Selection.AutoFill Destination:=Range("B2:B9"), Type:=xlFillDefault
+    
+    Range("B2:B9").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("B2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    ActiveSheet.Range("B10").Value = 0
+    
+'Вводим значение даты_времени недели данных'
+    Range("C2").Value = Format(date_time_lim, "yyyy-mm-dd")
+    
+    Range("D2").Select
+        ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(R2C3,[Справочники_iминтранс_v1.xlsx]dict_period!R2C1:R365C2,2,FALSE)"
+    Selection.AutoFill Destination:=Range("D2:D10"), Type:=xlFillDefault
+    
+    Range("D2:D10").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("D2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+        
+    Range("M2").Select
+    ActiveCell.FormulaR1C1 = _
+        "=VLOOKUP(R2C3,[Справочники_iминтранс_v1.xlsx]dict_period!R2C1:R365C5,5,FALSE)"
+    Selection.AutoFill Destination:=Range("M2:M10"), Type:=xlFillDefault
+    
+    Range("M2:M10").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("M2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+        
+    Worksheets("@tech" & main_cycle).Range("C2:C10").Value = date_time
+    
+'Объявляем сортировку'
+    i_order = 1
+    line_number = 2
+    
+    For i_order = 1 To 9
+        Range("L" & line_number).Value = i_order
+        line_number = line_number + 1
+    Next i_order
+    
+'Заполняем значения'
+    Sheets("Данные").Select
+    Range("B69:H77").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("E2").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+    Sheets("Данные").Select
+    Range("B1").Select
+    Selection.Copy
+    Sheets("@tech" & main_cycle).Select
+    ActiveSheet.Range("N2:N10").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    
+End If
+
+Next main_cycle
+
+'Удаляем лист "Данные" + отключаем уведомления'
+Application.DisplayAlerts = False
+Worksheets("Данные").Delete
+Application.DisplayAlerts = True
+
+Workbooks("10.СВОДНАЯ ТАБЛИЦА ИСПОЛНЕНИЯ ПОРУЧЕНИЙ.xlsx").Close SaveChanges:=False
+Workbooks("Справочники_iминтранс_v1.xlsx").Close SaveChanges:=False
+
+Application.ScreenUpdating = 1
+
+End Sub
+
